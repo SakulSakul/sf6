@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="hum">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스파6 초보자 캐릭터 선택 플로우차트 — 모케 × 나우만</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4
+ * Hallmark · macrostructure: Map-Diagram (19) · genre: playful · theme: Hum
+ * nav: N6 masthead · footer: Ft5 statement · studied: no
+ * content-source: SmashlogTV SF6 (모케 × 나우만) — 사용자 제공 번역 전문
+ */
+
+[data-theme="hum"] {
+  color-scheme: light;
+  --color-paper:      oklch(97%  0.012 95);
+  --color-paper-2:    oklch(94%  0.016 95);
+  --color-paper-3:    oklch(91%  0.020 95);
+  --color-rule:       oklch(86%  0.014 90);
+  --color-rule-2:     oklch(70%  0.018 85);
+  --color-muted:      oklch(52%  0.014 90);
+  --color-neutral:    oklch(38%  0.014 100);
+  --color-ink-2:      oklch(28%  0.014 250);
+  --color-ink:        oklch(20%  0.012 250);
+  --color-accent:     oklch(86%  0.18 95);    /* pear-yellow: 결과 칩 */
+  --color-accent-soft:oklch(93%  0.09 95);
+  --color-accent-2:   oklch(66%  0.18 235);   /* sky-cyan: 링크·포커스 */
+  --color-yes:        oklch(72%  0.15 150);   /* mint-green: YES 분기 */
+  --color-yes-soft:   oklch(93%  0.06 150);
+  --color-no:         oklch(66%  0.20 20);    /* coral: NO 분기 */
+  --color-no-soft:    oklch(94%  0.05 20);
+  --color-accent-ink: oklch(20%  0.012 250);
+  --color-focus:      oklch(66%  0.18 235);
+  --color-card:       oklch(99%  0.005 95);
+
+  --font-display: "Pretendard Variable", Pretendard, "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Pretendard Variable", Pretendard, "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-label:   "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --display-weight: 700;
+  --text-display:   clamp(1.9rem, 4.5vw + 0.6rem, 3.4rem);
+  --text-display-s: clamp(1.3rem, 2.5vw + 0.6rem, 1.9rem);
+  --tracking-display: -0.025em;
+  --tracking-label:   0.10em;
+  --tracking-micro:   0.16em;
+  --lh-tight: 1.12; --lh-snug: 1.3; --lh-normal: 1.6;
+
+  --radius-card:  18px;
+  --radius-pill:  999px;
+  --shadow-card:  0 12px 32px -16px oklch(20% 0.012 250 / 0.14),
+                  0 1px 2px oklch(20% 0.012 250 / 0.06);
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: clip; }
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--color-accent-2); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); }
+
+/* ── 마스트헤드 (N6) ─────────────────────────── */
+header.masthead { padding: clamp(36px, 7vw, 72px) 0 clamp(24px, 4vw, 40px); border-bottom: 2px solid var(--color-ink); }
+.kicker {
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: var(--tracking-micro);
+  text-transform: uppercase; color: var(--color-muted); margin-bottom: 14px;
+}
+h1 {
+  font-family: var(--font-display); font-weight: var(--display-weight);
+  font-size: var(--text-display); letter-spacing: var(--tracking-display);
+  line-height: var(--lh-tight); overflow-wrap: anywhere; min-width: 0;
+}
+h1 .hl { background: linear-gradient(transparent 62%, var(--color-accent) 62%); }
+.byline { margin-top: 16px; font-size: 0.95rem; color: var(--color-neutral); }
+.byline strong { color: var(--color-ink); }
+.src {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+  font-size: 0.82rem; color: var(--color-neutral); text-decoration: none;
+  border: 1px solid var(--color-rule); border-radius: var(--radius-pill);
+  padding: 6px 14px; white-space: nowrap; transition: background 160ms var(--ease-snap);
+}
+.src:hover { background: var(--color-paper-2); }
+.src:active { transform: translateY(1px); }
+
+/* ── 오리엔테이션 ────────────────────────────── */
+.orient { padding: clamp(24px, 4vw, 36px) 0 8px; }
+.orient p { color: var(--color-ink-2); max-width: 60ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.legend span {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.8rem; color: var(--color-neutral);
+  background: var(--color-card); border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill); padding: 5px 12px; white-space: nowrap;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.dot.y { background: var(--color-yes); } .dot.n { background: var(--color-no); } .dot.r { background: var(--color-accent); }
+
+section { padding-top: clamp(40px, 7vw, 64px); }
+.sec-label {
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: var(--tracking-micro);
+  text-transform: uppercase; color: var(--color-muted); margin-bottom: 10px;
+}
+h2 {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--text-display-s);
+  letter-spacing: var(--tracking-display); line-height: var(--lh-snug);
+  overflow-wrap: anywhere; min-width: 0; margin-bottom: 8px;
+}
+.sec-sub { color: var(--color-neutral); font-size: 0.95rem; margin-bottom: 24px; max-width: 58ch; }
+
+/* ── 진단 모드 ──────────────────────────────── */
+.walker {
+  background: var(--color-card); border: 2px solid var(--color-ink);
+  border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+  padding: clamp(20px, 4vw, 32px);
+}
+.walker .step {
+  font-family: var(--font-label); font-size: 0.72rem; letter-spacing: var(--tracking-label);
+  color: var(--color-muted); margin-bottom: 10px;
+}
+.walker .q { font-size: clamp(1.1rem, 2.6vw, 1.45rem); font-weight: 700; line-height: var(--lh-snug); }
+.walker .hint { margin-top: 8px; font-size: 0.9rem; color: var(--color-neutral); }
+.walker .btns { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.btn {
+  font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+  border-radius: var(--radius-pill); padding: 12px 28px; white-space: nowrap;
+  border: 2px solid var(--color-ink); background: var(--color-card); color: var(--color-ink);
+  transition: transform 160ms var(--ease-snap), background 160ms var(--ease-snap), box-shadow 160ms var(--ease-snap);
+}
+.btn.yes { background: var(--color-yes); }
+.btn.no  { background: var(--color-no); color: var(--color-card); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 0 var(--color-ink); }
+.btn:active { transform: translateY(1px); box-shadow: none; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn.ghost { border-color: var(--color-rule-2); font-weight: 500; font-size: 0.85rem; padding: 9px 18px; }
+.walker .result-box { display: none; }
+.walker.done .quiz-box { display: none; }
+.walker.done .result-box { display: block; }
+.result-box .tag {
+  display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--color-ink);
+  background: var(--color-accent-soft); border-radius: var(--radius-pill); padding: 4px 12px; margin-bottom: 12px;
+}
+.result-box .chars { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.char-chip {
+  font-weight: 700; font-size: 0.95rem; background: var(--color-accent);
+  border: 2px solid var(--color-ink); border-radius: var(--radius-pill); padding: 7px 16px; white-space: nowrap;
+}
+.result-box .why { color: var(--color-ink-2); font-size: 0.92rem; max-width: 56ch; }
+.trail { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--color-rule-2); font-size: 0.82rem; color: var(--color-muted); overflow-wrap: anywhere; }
+
+/* ── 전체 플로우차트 (세로 트리) ─────────────── */
+.tree { margin-top: 4px; }
+.qnode {
+  background: var(--color-card); border: 1.5px solid var(--color-ink);
+  border-radius: 14px; box-shadow: var(--shadow-card);
+  padding: 14px 18px; max-width: 560px;
+}
+.qnode .qno {
+  font-family: var(--font-label); font-size: 0.68rem; letter-spacing: var(--tracking-label);
+  color: var(--color-muted); display: block; margin-bottom: 3px;
+}
+.qnode .qtext { font-weight: 700; font-size: 1rem; line-height: var(--lh-snug); }
+.branch { position: relative; margin: 14px 0 0 clamp(10px, 3vw, 26px); padding-left: clamp(14px, 3vw, 22px); }
+.branch::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px; }
+.branch.b-yes::before { background: var(--color-yes); }
+.branch.b-no::before  { background: var(--color-no); }
+.bpill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-label); font-size: 0.68rem; font-weight: 700; letter-spacing: var(--tracking-label);
+  border-radius: var(--radius-pill); padding: 3px 12px; margin-bottom: 10px; white-space: nowrap;
+}
+.b-yes > .bpill { background: var(--color-yes-soft); color: oklch(38% 0.12 150); }
+.b-no  > .bpill { background: var(--color-no-soft);  color: oklch(45% 0.16 20); }
+.bnote { display: block; font-size: 0.82rem; color: var(--color-muted); margin: -6px 0 10px; }
+.rnode {
+  background: var(--color-accent-soft); border: 1.5px solid var(--color-ink);
+  border-radius: 14px; padding: 13px 16px; max-width: 560px;
+}
+.rnode .chars { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 8px; }
+.rnode .char-chip { font-size: 0.88rem; padding: 5px 14px; }
+.rnode .why { font-size: 0.85rem; color: var(--color-ink-2); line-height: 1.55; }
+.tree-item { opacity: 0; transform: translateY(10px); transition: opacity 480ms var(--ease-snap), transform 480ms var(--ease-snap); }
+.tree-item.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .tree-item { opacity: 1; transform: none; transition: none; } }
+
+/* ── 결과 요약 카드 ─────────────────────────── */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+.rcard {
+  background: var(--color-card); border: 1.5px solid var(--color-rule-2);
+  border-radius: var(--radius-card); padding: 18px; min-width: 0;
+  transition: transform 200ms var(--ease-snap), box-shadow 200ms var(--ease-snap);
+}
+.rcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+.rcard .style-tag {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--color-paper-2); border-radius: var(--radius-pill); padding: 3px 11px; margin-bottom: 10px;
+  color: var(--color-neutral);
+}
+.rcard .names { font-weight: 800; font-size: 1.05rem; line-height: var(--lh-snug); overflow-wrap: anywhere; }
+.rcard .desc { margin-top: 8px; font-size: 0.85rem; color: var(--color-ink-2); line-height: 1.55; }
+
+/* ── 푸터 (Ft5) ─────────────────────────────── */
+footer { margin-top: clamp(56px, 9vw, 88px); border-top: 2px solid var(--color-ink); padding: clamp(28px, 5vw, 44px) 0 clamp(40px, 6vw, 64px); }
+footer .statement { font-weight: 700; font-size: clamp(1.05rem, 2.4vw, 1.35rem); line-height: var(--lh-snug); max-width: 34ch; overflow-wrap: anywhere; }
+footer .credit { margin-top: 18px; font-size: 0.82rem; color: var(--color-muted); line-height: 1.7; }
+footer .credit a { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="masthead">
+  <p class="kicker">SmashlogTV SF6 · 모케 × 나우만</p>
+  <h1>스파6 입문, 내 캐릭터는?<br><span class="hl">질문 9개로 끝내는</span> 선택 플로우차트</h1>
+  <p class="byline">프로게이머 <strong>모케</strong>와 <strong>나우만</strong>이 스트리트 파이터 6를 막 시작하는 초보자를 위해 만든 성향 진단 차트. 일주일 뒤 친구와의 대전에서 이기고 싶은 사람에게, 성향별로 딱 맞는 캐릭터를 짚어 준다.</p>
+  <a class="src" href="https://youtu.be/wFL5lZuU-yo?si=Ncs_EIHGM65MTyil" target="_blank" rel="noopener">▶ 원본 영상 보기</a>
+</header>
+
+<div class="orient">
+  <p>첫 분기점은 딱 하나 — <strong>"오늘 당장 이기고 싶은가?"</strong> 얼마나 빨리 '승리'라는 성과를 내고 싶은지에서 갈라진 뒤, 플레이 성향 질문을 따라 내려가면 10개 결과 중 하나에 도착한다.</p>
+  <div class="legend">
+    <span><i class="dot y"></i>YES 분기</span>
+    <span><i class="dot n"></i>NO 분기</span>
+    <span><i class="dot r"></i>추천 캐릭터</span>
+  </div>
+</div>
+
+<!-- ① 진단 모드 -->
+<section>
+  <p class="sec-label">01 · Quick Check</p>
+  <h2>진단 모드 — 눌러서 따라가기</h2>
+  <p class="sec-sub">YES / NO만 고르면 차트를 대신 걸어 준다. 결과가 마음에 안 들면 처음부터 다시.</p>
+  <div class="walker" id="walker">
+    <div class="quiz-box">
+      <p class="step" id="w-step">Q1</p>
+      <p class="q" id="w-q"></p>
+      <p class="hint" id="w-hint"></p>
+      <div class="btns">
+        <button class="btn yes" id="w-yes" type="button">YES</button>
+        <button class="btn no" id="w-no" type="button">NO</button>
+      </div>
+    </div>
+    <div class="result-box">
+      <span class="tag" id="w-tag"></span>
+      <p class="q">이 캐릭터로 시작해 봐</p>
+      <div class="chars" id="w-chars"></div>
+      <p class="why" id="w-why"></p>
+      <p class="trail" id="w-trail"></p>
+      <div class="btns"><button class="btn ghost" id="w-reset" type="button">처음부터 다시</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ② 전체 플로우차트 -->
+<section>
+  <p class="sec-label">02 · Full Chart</p>
+  <h2>전체 플로우차트</h2>
+  <p class="sec-sub">원본의 가로 차트를 읽기 쉽게 세로 트리로 재구성했다. 초록 선이 YES, 코랄 선이 NO.</p>
+
+  <div class="tree">
+
+    <div class="tree-item qnode"><span class="qno">Q1</span><span class="qtext">오늘 당장 이기고 싶어?</span></div>
+
+    <!-- Q1 YES -->
+    <div class="tree-item branch b-yes">
+      <span class="bpill">YES · 지금 바로 승리</span>
+      <div class="qnode"><span class="qno">Q2</span><span class="qtext">근거리에서 가드 압박(하메)을 끈질기게 하고 싶어?</span></div>
+
+      <div class="branch b-yes">
+        <span class="bpill">YES</span>
+        <div class="rnode">
+          <div class="chars"><span class="char-chip">장기에프</span><span class="char-chip">릴리</span></div>
+          <p class="why">근거리 믹스업 파. 붙어서 잡기·압박으로 상대를 무너뜨린다.</p>
+        </div>
+      </div>
+
+      <div class="branch b-no">
+        <span class="bpill">NO · 날먹하고 싶다</span>
+        <div class="rnode">
+          <div class="chars"><span class="char-chip">혼다</span><span class="char-chip">마리사</span><span class="char-chip">베가</span><span class="char-chip">블랑카</span></div>
+          <p class="why">혼다·마리사는 버튼만 눌러도 필살기 판정으로 밀어붙이는 '억지 플레이'가 가능. 베가는 그중에서도 멋까지 챙기고 싶은 사람용.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q1 NO -->
+    <div class="tree-item branch b-no">
+      <span class="bpill">NO · 시간을 들일 의향 있음</span>
+      <div class="qnode"><span class="qno">Q3</span><span class="qtext">트레모(트레이닝 모드) 좋아해?</span></div>
+
+      <!-- Q3 YES -->
+      <div class="branch b-yes">
+        <span class="bpill">YES · 트레모 러버</span>
+        <div class="qnode"><span class="qno">Q4</span><span class="qtext">셋업·패턴으로 상대를 완벽하게 하메하고 싶어?</span></div>
+
+        <div class="branch b-yes">
+          <span class="bpill">YES</span>
+          <div class="rnode">
+            <div class="chars"><span class="char-chip">킴벌리</span><span class="char-chip">JP</span><span class="char-chip">라시드</span></div>
+            <p class="why">연구해 온 셋업과 패턴으로 상대를 가둬 두는 스타일.</p>
+          </div>
+        </div>
+
+        <div class="branch b-no">
+          <span class="bpill">NO</span>
+          <div class="qnode"><span class="qno">Q5</span><span class="qtext">조작이 바쁘고 콤보 삑사리 위험이 있는 어려운 테크닉도 괜찮아?</span></div>
+
+          <div class="branch b-yes">
+            <span class="bpill">YES</span>
+            <div class="rnode">
+              <div class="chars"><span class="char-chip">춘리</span><span class="char-chip">AKI</span></div>
+              <p class="why">이전 작의 C.바이퍼·알렉스 같은, 어려운 만큼 강한 조작감 중시 계열.</p>
+            </div>
+          </div>
+
+          <div class="branch b-no">
+            <span class="bpill">NO · 콤보 깎기 자체가 재미</span>
+            <div class="rnode">
+              <div class="chars"><span class="char-chip">제이미</span><span class="char-chip">에드</span></div>
+              <p class="why">트레모에서 콤보를 다듬는 과정 자체를 즐기는 사람용.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 NO -->
+      <div class="branch b-no">
+        <span class="bpill">NO · 바로 실전 대전파</span>
+        <div class="qnode"><span class="qno">Q6</span><span class="qtext">수비적으로 이기는 방식이 좋아?</span></div>
+
+        <!-- Q6 YES -->
+        <div class="branch b-yes">
+          <span class="bpill">YES · 수비파</span>
+          <div class="qnode"><span class="qno">Q7</span><span class="qtext">강철의 의지로 절대 먼저 안 들어간다 — 니가와 고집할래?</span></div>
+
+          <div class="branch b-yes">
+            <span class="bpill">YES</span>
+            <div class="rnode">
+              <div class="chars"><span class="char-chip">가일</span><span class="char-chip">달심</span></div>
+              <p class="why">끝까지 기다리며 상대가 들어오게 만드는 니가와의 정점.</p>
+            </div>
+          </div>
+
+          <div class="branch b-no">
+            <span class="bpill">NO · 가끔은 먼저 공격</span>
+            <div class="rnode">
+              <div class="chars"><span class="char-chip">사가트</span><span class="char-chip">엘레나</span></div>
+              <p class="why">기본은 수비형 풋시, 때로는 먼저 들어가 공격도 섞는 스타일.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 NO -->
+        <div class="branch b-no">
+          <span class="bpill">NO · 공격형 지상전</span>
+          <div class="qnode"><span class="qno">Q8</span><span class="qtext">장풍(투사체) 쏘고 싶어?</span></div>
+
+          <div class="branch b-no">
+            <span class="bpill">NO · 몸으로 파고든다</span>
+            <div class="rnode">
+              <div class="chars"><span class="char-chip">주리</span><span class="char-chip">캐미</span></div>
+              <p class="why">장풍 없이 오로지 몸으로 파고들어 때리는 인파이터.</p>
+            </div>
+          </div>
+
+          <div class="branch b-yes">
+            <span class="bpill">YES</span>
+            <div class="qnode"><span class="qno">Q9</span><span class="qtext">옛날 스파처럼 파동·승룡 기반의 정통파(풍림류) 스타일을 원해?</span></div>
+
+            <div class="branch b-yes">
+              <span class="bpill">YES</span>
+              <div class="rnode">
+                <div class="chars"><span class="char-chip">류</span><span class="char-chip">켄</span><span class="char-chip">고우키</span></div>
+                <p class="why">정통파 지상전 캐릭터. 켄이 지르기·드라이브 러시 성향이 강해도 근본은 파동승룡이라는 평가.</p>
+              </div>
+            </div>
+
+            <div class="branch b-no">
+              <span class="bpill">NO · 빠른 템포가 좋다</span>
+              <div class="rnode">
+                <div class="chars"><span class="char-chip">루크</span><span class="char-chip">디제이</span><span class="char-chip">테리</span><span class="char-chip">시라누이 마이</span></div>
+                <p class="why">스파6 특유의 템포 빠른 공격 지속력과 순발력을 살리는 계열.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ③ 결과 요약 -->
+<section>
+  <p class="sec-label">03 · Summary</p>
+  <h2>결과 10종 한눈에 보기</h2>
+  <p class="sec-sub">차트 없이 성향 키워드로만 훑고 싶을 때.</p>
+  <div class="grid">
+    <div class="rcard"><span class="style-tag">근거리 믹스업</span><p class="names">장기에프 · 릴리</p><p class="desc">오늘 당장 이기고 싶고, 붙어서 가드 압박을 끈질기게 하고 싶다.</p></div>
+    <div class="rcard"><span class="style-tag">날먹 · 억지 플레이</span><p class="names">혼다 · 마리사 · 베가 · 블랑카</p><p class="desc">버튼만 눌러도 필살기 판정으로 밀어붙인다. 베가는 멋까지 챙기는 선택지.</p></div>
+    <div class="rcard"><span class="style-tag">셋업 · 패턴 하메</span><p class="names">킴벌리 · JP · 라시드</p><p class="desc">트레모에서 연구한 셋업으로 상대를 완벽하게 가둔다.</p></div>
+    <div class="rcard"><span class="style-tag">고난도 테크닉</span><p class="names">춘리 · AKI</p><p class="desc">조작이 바빠도, 삑사리 위험이 있어도 어려운 만큼 강한 캐릭터.</p></div>
+    <div class="rcard"><span class="style-tag">콤보 연마파</span><p class="names">제이미 · 에드</p><p class="desc">트레모에서 콤보를 깎는 시간 자체가 즐거운 사람.</p></div>
+    <div class="rcard"><span class="style-tag">니가와 · 완전 수비</span><p class="names">가일 · 달심</p><p class="desc">절대 먼저 안 들어간다. 기다림으로 이기는 강철의 의지.</p></div>
+    <div class="rcard"><span class="style-tag">수비 풋시 + 선공</span><p class="names">사가트 · 엘레나</p><p class="desc">기본은 수비형 풋시, 때로는 먼저 들어가 공격도 섞는다.</p></div>
+    <div class="rcard"><span class="style-tag">장풍 없는 인파이터</span><p class="names">주리 · 캐미</p><p class="desc">몸으로 파고들어 때리는 순수 돌격형.</p></div>
+    <div class="rcard"><span class="style-tag">정통파 파동승룡</span><p class="names">류 · 켄 · 고우키</p><p class="desc">옛날 스파식 정통 지상전. 켄도 근본은 파동승룡 캐릭터.</p></div>
+    <div class="rcard"><span class="style-tag">하이템포 러시</span><p class="names">루크 · 디제이 · 테리 · 시라누이 마이</p><p class="desc">스파6 특유의 빠른 템포와 공격 지속력, 순발력으로 몰아친다.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p class="statement">"완성형으로서는 우리도 납득" — 캐릭터 고를 때 이 가이드를 적극 참고해 주길.</p>
+  <p class="credit">
+    기획: 모케 × 나우만 (SmashlogTV SF6)<br>
+    출처: <a href="https://youtu.be/wFL5lZuU-yo?si=Ncs_EIHGM65MTyil" target="_blank" rel="noopener">youtu.be/wFL5lZuU-yo</a> · 본 페이지는 영상 내용을 한국어로 정리한 팬 요약 자료입니다.
+  </p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // 진단 모드 데이터 — 트리와 동일한 소스
+  var NODES = {
+    q1: { step: "Q1", q: "오늘 당장 이기고 싶어?", hint: "얼마나 빨리 '승리'라는 성과를 내고 싶은지가 첫 분기점.", yes: "q2", no: "q3", yl: "지금 바로 승리", nl: "시간을 들일 의향 있음" },
+    q2: { step: "Q2", q: "근거리에서 가드 압박(하메)을 끈질기게 하고 싶어?", hint: "", yes: "r1", no: "r2", yl: "근거리 믹스업", nl: "날먹하고 싶다" },
+    q3: { step: "Q3", q: "트레모(트레이닝 모드) 좋아해?", hint: "", yes: "q4", no: "q6", yl: "트레모 러버", nl: "바로 실전 대전파" },
+    q4: { step: "Q4", q: "셋업·패턴으로 상대를 완벽하게 하메하고 싶어?", hint: "", yes: "r3", no: "q5", yl: "셋업 장인", nl: "" },
+    q5: { step: "Q5", q: "조작이 바쁘고 콤보 삑사리 위험이 있는 어려운 테크닉도 괜찮아?", hint: "", yes: "r4", no: "r5", yl: "고난도 환영", nl: "콤보 깎기 자체가 재미" },
+    q6: { step: "Q6", q: "수비적으로 이기는 방식이 좋아?", hint: "", yes: "q7", no: "q8", yl: "수비파", nl: "공격형 지상전" },
+    q7: { step: "Q7", q: "강철의 의지로 절대 먼저 안 들어간다 — 니가와 고집할래?", hint: "", yes: "r6", no: "r7", yl: "완전 니가와", nl: "가끔은 먼저 공격" },
+    q8: { step: "Q8", q: "장풍(투사체) 쏘고 싶어?", hint: "", yes: "q9", no: "r8", yl: "", nl: "몸으로 파고든다" },
+    q9: { step: "Q9", q: "옛날 스파처럼 파동·승룡 기반의 정통파(풍림류) 스타일을 원해?", hint: "", yes: "r9", no: "r10", yl: "정통파", nl: "빠른 템포가 좋다" }
+  };
+  var RESULTS = {
+    r1:  { tag: "근거리 믹스업", chars: ["장기에프", "릴리"], why: "붙어서 잡기·압박으로 상대를 무너뜨리는 스타일." },
+    r2:  { tag: "날먹 · 억지 플레이", chars: ["혼다", "마리사", "베가", "블랑카"], why: "혼다·마리사는 버튼만 눌러도 필살기 판정으로 밀어붙일 수 있다. 베가는 멋까지 챙기는 선택지." },
+    r3:  { tag: "셋업 · 패턴 하메", chars: ["킴벌리", "JP", "라시드"], why: "연구한 셋업과 패턴으로 상대를 가둬 두는 스타일." },
+    r4:  { tag: "고난도 테크닉", chars: ["춘리", "AKI"], why: "이전 작의 C.바이퍼·알렉스 같은, 어려운 만큼 강한 조작감 중시 계열." },
+    r5:  { tag: "콤보 연마파", chars: ["제이미", "에드"], why: "트레모에서 콤보를 다듬는 과정 자체를 즐기는 사람용." },
+    r6:  { tag: "니가와 · 완전 수비", chars: ["가일", "달심"], why: "끝까지 기다리며 상대가 들어오게 만드는 니가와의 정점." },
+    r7:  { tag: "수비 풋시 + 선공", chars: ["사가트", "엘레나"], why: "기본은 수비형 풋시, 때로는 먼저 들어가 공격도 섞는다." },
+    r8:  { tag: "장풍 없는 인파이터", chars: ["주리", "캐미"], why: "장풍 없이 몸으로 파고들어 때리는 순수 돌격형." },
+    r9:  { tag: "정통파 파동승룡", chars: ["류", "켄", "고우키"], why: "정통파 지상전. 켄도 근본은 파동승룡 캐릭터라는 평가." },
+    r10: { tag: "하이템포 러시", chars: ["루크", "디제이", "테리", "시라누이 마이"], why: "스파6 특유의 빠른 템포와 공격 지속력, 순발력으로 몰아친다." }
+  };
+
+  var cur = "q1", trail = [];
+  var $ = function (id) { return document.getElementById(id); };
+  var walker = $("walker");
+
+  function render() {
+    var n = NODES[cur];
+    $("w-step").textContent = n.step;
+    $("w-q").textContent = n.q;
+    $("w-hint").textContent = n.hint;
+    $("w-hint").style.display = n.hint ? "" : "none";
+  }
+  function go(ans) {
+    var n = NODES[cur];
+    var label = ans === "yes" ? (n.yl || "YES") : (n.nl || "NO");
+    trail.push(n.step + " " + label);
+    var next = ans === "yes" ? n.yes : n.no;
+    if (RESULTS[next]) { showResult(next); } else { cur = next; render(); }
+  }
+  function showResult(id) {
+    var r = RESULTS[id];
+    $("w-tag").textContent = r.tag;
+    var box = $("w-chars"); box.innerHTML = "";
+    r.chars.forEach(function (c) {
+      var s = document.createElement("span");
+      s.className = "char-chip"; s.textContent = c; box.appendChild(s);
+    });
+    $("w-why").textContent = r.why;
+    $("w-trail").textContent = "이동 경로: " + trail.join(" → ");
+    walker.classList.add("done");
+  }
+  $("w-yes").addEventListener("click", function () { go("yes"); });
+  $("w-no").addEventListener("click", function () { go("no"); });
+  $("w-reset").addEventListener("click", function () {
+    cur = "q1"; trail = []; walker.classList.remove("done"); render();
+  });
+  render();
+
+  // 트리 페이드인 (최상위 3개만, reduced-motion 존중)
+  var items = document.querySelectorAll(".tree-item");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add("on"); });
+  }
+})();
+</script>
+</body>
+</html>
